@@ -71,24 +71,28 @@ function App() {
   ]);
 
   let content = null;
+  let contextControl = null;
   if(mode === 'WELCOME'){
     content = <Article title="Welcome" body="Hello, WEB!"></Article>
   }else if(mode === 'READ'){
     let title, body = null;
     for(let i =0; i<topics.length; ++i){
-      if(topics[i].idx === id){
+      if(topics[i].id === id){
         title = topics[i].title;
         body = topics[i].body;
         console.log(title, body);
       }
     }
     content = <Article title={title} body={body}></Article>
+    contextControl = <li><a href={'/update/'+id}>Update</a></li>
 }else if(mode === 'CRATE') {
   content = <Create onCreate={(_title, _body) => {
     const newTopic = {id:nextId, title:_title, body:_body}
+    console.log(JSON.stringify(topics));
     const newTopics = [...topics]
+    console.log(JSON.stringify(newTopics));
     newTopics.push(newTopic);
-    setTopics(newTopic);
+    setTopics(newTopics);
     setMode('READ');
     setId(nextId);
     setNextId(nextId+1);
@@ -104,11 +108,14 @@ function App() {
         setId(_id);
       }}></Nav>
       {content}
-      <a href="/create" onClick={event=>{
-        event.preventDefault();
-        setMode('CRATE');
-
-      }}>Creates</a>
+      <ul>
+        <li>
+        <a href="/create" onClick={event=>{
+          event.preventDefault();
+          setMode('CRATE');
+        }}>Creates</a></li>
+        {contextControl}
+      </ul>
     </div>
   );
 }
