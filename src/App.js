@@ -88,9 +88,7 @@ function App() {
 }else if(mode === 'CRATE') {
   content = <Create onCreate={(_title, _body) => {
     const newTopic = {id:nextId, title:_title, body:_body}
-    console.log(JSON.stringify(topics));
     const newTopics = [...topics]
-    console.log(JSON.stringify(newTopics));
     newTopics.push(newTopic);
     setTopics(newTopics);
     setMode('READ');
